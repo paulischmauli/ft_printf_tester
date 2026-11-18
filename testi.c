@@ -1,15 +1,3 @@
-/******************************************************************************/
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pzieheng <pzieheng@student.42vienna.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/10 20:12:35 by pzieheng          #+#    #+#             */
-/*   Updated: 2025/11/19 14:45:25 by pzieheng         ###   ########.fr       */
-/*                                                                            */
-/******************************************************************************/
-
 #include "ft_printf.h"
 #include <stdio.h>
 #include <limits.h>
@@ -37,8 +25,8 @@ int	main (void)
 	RUN("null string", "%s", NULL);
 	// ---------- %d TESTS ----------
 	printf("-------- %%d TESTS --------\n");
-	RUN("decimal negative", "%d", -42);
 	RUN("decimal positive", "%d", 42);
+	RUN("decimal negative", "%d", -1);
 	RUN("decimal zero", "%d", 0);
 	RUN("decimal -zero", "%d", -0);
 	RUN("decimal INT_MIN", "%d", INT_MIN);
@@ -56,6 +44,7 @@ int	main (void)
 	RUN("u -42", "%u", -42);
 	RUN("u INT_MIN", "%u", (unsigned int)-2147483648);
 	RUN("u INT_MAX", "%u", 2147483647);
+	RUN("u UINT_MAX", "%u", UINT_MAX);
 	RUN("u mix 1", "value: %u %u %u", 0u, 42u, 12345u);
 	RUN("u mix 2", "negatives: %u %u %u", -1, -2, -100);
 	// ---------- %x TESTS ----------
@@ -71,6 +60,7 @@ int	main (void)
 	RUN("x -42", "%x", (unsigned int)-42);
 	RUN("x INT_MIN", "%x", (unsigned int)-2147483648);
 	RUN("x INT_MAX", "%x", (unsigned int)2147483647);
+	RUN("x UINT_MAX", "%x", UINT_MAX);
 	RUN("x mix", "%x %x %x", 0u, 255u, 4095u);
 	// ---------- %X TESTS ----------
 	printf("-------- %%X TESTS --------\n");
@@ -85,6 +75,7 @@ int	main (void)
 	RUN("X -42", "%X", (unsigned int)-42);
 	RUN("X INT_MIN", "%X", (unsigned int)-2147483648);
 	RUN("X INT_MAX", "%X", (unsigned int)2147483647);
+	RUN("x UINT_MAX", "%X", UINT_MAX);
 	RUN("X mix", "%X %X %X", 0u, 255u, 4095u);
 	// ---------- %p TESTS ----------
 	int a = 42;
@@ -107,4 +98,8 @@ int	main (void)
 	RUN("percent double", "%%%%");
 	RUN("percent mixed", "start %% mid %% end");
 	RUN("percent next to specs", "x=%x %% y=%u", 42u, 7u);
+	printf("--------The weird ones --------\n");
+	RUN("Trailing %", "abc%");
+	RUN("Unknown format", "%z");
 }
+
