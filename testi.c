@@ -21,6 +21,9 @@ int	main (void)
 	RUN("empty", "%s", "");
 	RUN("text", "Servas 42\n");
 	RUN("char", "%c", 'E');
+	RUN("char 0", "%c", 0);
+	RUN("char 255", "%c", 255);
+	RUN("char 256", "%c", 256);
 	RUN("string", "%s", "Hawidere 42\n");
 	RUN("null string", "%s", NULL);
 	// ---------- %d TESTS ----------
@@ -90,6 +93,7 @@ int	main (void)
 	RUN("p str literal", "%p", (void *)"hi");
 	RUN("p str variable", "%p", (void *)str);
 	RUN("p mix", "%p %p %p", (void *)&a, (void *)arr, (void *)str);
+	RUN("p -1", "%p", (void *)-1);
 	// ---------- %% TESTS ----------
 	printf("-------- %% TESTS --------\n");
 	RUN("percent alone", "%%");
@@ -101,5 +105,17 @@ int	main (void)
 	printf("--------The weird ones --------\n");
 	RUN("Trailing %", "abc%");
 	RUN("Unknown format", "%z");
+	printf("-------- MIXED TESTS --------\n");
+	RUN("mixed basic", "%c|%s|%d|%i|%u|%x|%X|%%", 'A', "str", -42, 42, 42u, 255u, 255u);
+	RUN("mixed ptr + hex", "%p%x", (void *)&a, 255u);
+	RUN("mixed ptr + str", "%s=%p", "arr", (void *)arr);
+	RUN("mixed extremes", "%d %i %u %x %X", INT_MIN, INT_MAX, UINT_MAX, UINT_MAX, UINT_MAX);
+	RUN("mixed ptr extremes", "%p %p", (void *)-1, (void *)ULONG_MAX);
+	RUN("mixed char values", "%c%c%c%c", 0, 127, 255, 256);
+	RUN("mixed adjacent", "%d%d%d%s%c", 1, -2, 3, "x", 'y');
+	RUN("mixed nulls", "%s %p %s", NULL, NULL, "end");
+	RUN("mixed percent run", "%%%d%%%s%%", 7, "z");
+	RUN("mixed text between", "a%db%sc%xd%Xe%uf", 1, "2", 3u, 4u, 5u);
+	RUN("mixed empty fmt", "");
 }
 
